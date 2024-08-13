@@ -9,7 +9,12 @@ template<typename T>
 class vector {
     vector();
     vector(int size, T value);
-    vector(const vector<T> &other);
+    vector(const vector<T>& other);
+    T& operator=(const vector<T>& other);
+    vector(const vector<T>&& other);
+    T& operator=(const vector<T>&& other);
+    ~vector();
+
 
 
 };
