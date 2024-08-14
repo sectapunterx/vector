@@ -1,6 +1,7 @@
 #include <iostream>
+#include "vector.h"
 
 int main() {
-  std::cout << "Hello, World!" << std::endl;
+  my_vector::vector<int> vec(5, 10);
   return 0;
 }
