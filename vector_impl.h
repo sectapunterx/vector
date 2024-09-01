@@ -2,7 +2,6 @@
 // Created by Fin on 13.08.2024.
 //
 
-#include "vector.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -45,7 +44,7 @@ namespace my_vector {
     }
 
     template<typename T>
-    constexpr T& vector<T>::operator[](size_t index) const {
+    const T& vector<T>::operator[] (size_t index) const {
       return data_[index];
     }
 
@@ -93,7 +92,7 @@ namespace my_vector {
         T* new_data = allocator.allocate(new_capacity);
         for(int i = 0; i < size_; ++i){
           allocator.construct(&new_data[i], std::move(data_[i]));
-          allocator.deallocate(&data_[i]);
+          allocator.destroy(&data_[i]);
         }
         allocator.deallocate(data_, capacity_);
         data_ = new_data;
@@ -147,6 +146,7 @@ namespace my_vector {
         allocator.destroy(&data_[i]);
       }
       size_ = 0;
+      shrink_to_fit();
     }
 
     template<typename T>
@@ -266,6 +266,38 @@ namespace my_vector {
       }
     }
 
+    template<typename T>
+    void vector<T>::trim_to_size() {
+      if (capacity_ > size_) {
+        shrink_to_fit();
+      }
+    }
 
+    template<typename T>
+    void vector<T>::ensure_capacity(size_t min_capacity) {
+      if (capacity_ < min_capacity) {
+        reserve(min_capacity);
+      }
+    }
+
+    template<typename T>
+    size_t vector<T>::size() const noexcept {
+      return size_;
+    }
+
+    template<typename T>
+    size_t vector<T>::capacity() const noexcept {
+      return capacity_;
+    }
+
+    template<typename T>
+    T* vector<T>::data() noexcept {
+      return data_;
+    }
+
+    template<typename T>
+    const T* vector<T>::data() const noexcept {
+      return data_;
+    }
 
 } //namespace my_vector

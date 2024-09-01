@@ -7,6 +7,7 @@
 
 #include <memory>
 
+
 namespace my_vector {
 
 /**
@@ -118,7 +119,7 @@ namespace my_vector {
          * @param index The position of the element to access.
          * @return A reference to the element at the specified position.
          */
-        constexpr T& operator[] (size_t index) const;
+        const T& operator[] (size_t index) const;
 
         /**
          * @brief Destructor.
@@ -174,14 +175,14 @@ namespace my_vector {
          *
          * @return The number of elements in the vector.
          */
-        size_t size() const noexcept;
+        [[nodiscard]] size_t size() const noexcept;
 
         /**
          * @brief Returns the capacity_ of the vector.
          *
          * @return The capacity_ of the vector.
          */
-        size_t capacity() const noexcept;
+        [[nodiscard]] size_t capacity() const noexcept;
 
         /**
          * @brief Accesses the element at the specified position.
@@ -287,11 +288,27 @@ namespace my_vector {
          */
         const T* data() const noexcept;
 
+        /**
+         * @brief Trims the capacity of the vector to match its size.
+         *
+         * This method reduces the capacity of the vector to match its current size,
+         * effectively releasing any unused memory.
+         */
+        void trim_to_size();
 
-
-        //TODO: vector<bool>, bit_reference, iterator(?)
+        /**
+         * @brief Ensures the vector has at least the specified capacity.
+         *
+         * This method increases the capacity of the vector if the current capacity
+         * is less than the specified minimum capacity.
+         *
+         * @param min_capacity The minimum capacity to ensure.
+         */
+        void ensure_capacity(size_t min_capacity);
     };
 
 } // namespace my_vector
+
+#include "vector_impl.h"
 
 #endif //VECTOR_VECTOR_H
